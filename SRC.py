@@ -1,7 +1,8 @@
 
 # Required Modules
 
-import os 
+import os
+from re import sub 
 from sys import * 
 import hashlib
 import time 
@@ -17,7 +18,7 @@ import time
 
 def removeDuplicates(dict1):
     duplicates = list(filter(lambda x : len(x) > 1 , dict1.values()))
-
+    # print(dict1)
     iCnt = 0 
     if (len(duplicates )> 0):
         for result in duplicates:
@@ -37,7 +38,7 @@ def removeDuplicates(dict1):
 # ////////////////////////////////////////////
 #   
 #   Function Name : hasfile 
-#   Usage : to hash file in hesadecimal number to uniquely identify the file
+#   Usage : to hash file in hexadecimal number to uniquely identify the file
 #   input : path of file , blocksize to read file 
 #   output : return hexadecimal number of file
 #
@@ -68,7 +69,7 @@ def hashfile(path , blocksize = 4096):
 
 def findDuplicates(path):
     exists = os.path.isdir(path)
-    dups = {}
+    dups = {} #Dictionary
     if exists :
         print("Scanning Files ......")
         for dirName  , subdirs  , fileList in os.walk(path):
@@ -101,8 +102,11 @@ def printDuplicate (dict1):
     dulplicateList = list(filter(lambda x : len(x) > 1 , dict1.values()))
     if(len(dulplicateList) > 0):
         print("Duplcaite File Are  ")
+        # print(dulplicateList)
         for result in dulplicateList:
+            # print("Result ::: " , result)
             for subresult in result : 
+                # print("subresult :: " , subresult)
                 iSize = iSize + os.path.getsize(subresult)
                 iCount = 1 +  iCount
                 print(subresult)
@@ -176,11 +180,11 @@ def main():
         iSize , iCount = printDuplicate(dict1)
         if (iCount == 0 ):
             print("No Duplicates Found :: \n\n")
-            exit()
-        printSize(iSize , iCount)
-        flag =  input(("\n\n Remove Files ? ( y or n )"))
-        if flag == 'y' :
-            removeDuplicates(dict1)
+        else : 
+            printSize(iSize , iCount)
+            flag =  input(("\n\n Remove Files ? ( y or n )"))
+            if flag == 'y' :
+                removeDuplicates(dict1)
 
         endTime = time.time()
 
